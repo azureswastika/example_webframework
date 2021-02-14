@@ -1,6 +1,8 @@
 from webframework import Application
 from webframework.views import TemplateView, View
 
+app = Application()
+
 
 class Index(TemplateView):
     route = "/"
@@ -24,4 +26,5 @@ class Contacts(View):
         return self.get(request)
 
 
-app = Application()
+if __name__ == "__main__":
+    app.start()
