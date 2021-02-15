@@ -10,19 +10,20 @@ class Index(TemplateView):
 
 
 class About(TemplateView):
-    route = "/about/"
+    route = "/about"
     template = "templates/about.html"
 
 
 class Contacts(View):
-    route = "/contacts/"
+    route = ["/contacts", "/contact"]
     template = "templates/contacts.html"
 
     def post(self, request):
-        email = request.get("email")
-        subject = request.get("subject")
-        message = request.get("message")
-        print("Письмо от: {}\nТема: {}\nТекст: {}".format(email, subject, message))
+        if post := request.get("POST"):
+            email = post.email
+            subject = post.subject
+            message = post.message
+            print("Письмо от: {}\nТема: {}\nТекст: {}".format(email, subject, message))
         return self.get(request)
 
 
