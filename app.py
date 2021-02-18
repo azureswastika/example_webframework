@@ -6,17 +6,17 @@ app = Application()
 
 class Index(TemplateView):
     route = "/"
-    template = "templates/index.html"
+    template = "index.html"
 
 
 class About(TemplateView):
     route = "/about"
-    template = "templates/about.html"
+    template = "about.html"
 
 
 class Contacts(View):
     route = ["/contacts", "/contact"]
-    template = "templates/contacts.html"
+    template = "contacts.html"
 
     def post(self, request):
         if post := request.get("POST"):
