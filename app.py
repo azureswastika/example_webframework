@@ -33,7 +33,7 @@ class CreateCourse(View):
         if post := request.get("POST"):
             name = post.name
             type_ = post.type
-            category = SiteAdmin.get(Category, name=post.category)[0]
+            category = SiteAdmin.get(Category, category=post.category)[0]
             SiteAdmin.create_course(type_, name, category)
         return self.get(request)
 
@@ -57,5 +57,13 @@ class CreateCategory(View):
         return self.get(request)
 
 
+def setup():
+    SiteAdmin.create_category("Python")
+    SiteAdmin.create_category("JavaScript")
+    SiteAdmin.create_course("InteractiveCourse", "Python разработка", "Python")
+    SiteAdmin.create_course("OfflineCourse", "JavaScript разработка", "JavaScript")
+
+
 if __name__ == "__main__":
+    setup()
     app.start()

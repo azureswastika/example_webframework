@@ -77,24 +77,18 @@ class Course(Index):
 
 
 class OfflineCourse(Course):
-    data = list()
-
     def __init__(
-        self, name: str, category: Category, address: str, *args, **kwargs
+        self, name: str, category: Category, address: str = "г. Москва", *args, **kwargs
     ) -> None:
         self.address = address
-        self.__class__.data.append(self)
         super().__init__(name, category, *args, **kwargs)
 
 
 class InteractiveCourse(Course):
-    data = list()
-
     def __init__(
-        self, name: str, category: Category, system: str, *args, **kwargs
+        self, name: str, category: Category, system: str = "youtube.com", *args, **kwargs
     ) -> None:
         self.system = system
-        self.__class__.data.append(self)
         super().__init__(name, category, *args, **kwargs)
 
 
@@ -121,17 +115,17 @@ class SiteAdmin:
 
     @staticmethod
     def create_course(type_: str, name: str, category: Category, *args, **kwargs):
-        return CourseFactory(type_, name, category)
+        return CourseFactory.create(type_, name, category)
 
     @staticmethod
     def get(obj: Union[User, Category, Course], **kwargs):
         if kwargs:
             data = list()
-            for cls in obj.data:
+            for u in obj.data:
                 for values, index in zip(kwargs.items(), range(len(kwargs))):
-                    if values not in cls.__dict__.items():
+                    if values not in u.__dict__.items():
                         break
                     if index + 1 == len(kwargs):
-                        data.append(cls)
+                        data.append(u)
             return data
         return obj.data

@@ -7,7 +7,7 @@
 {% block content %}
     <h1>Курсы</h1>
     {% for course in courses %}
-        {{ course.type_ }} | {{ course.name }} #{{ course.category }}<br />
+        <p>{{ course.name }} | {{ course.system or course.address }} <a href="#">#{{ course.category }}</a></p><br />
     {% endfor %}
 
 {% endblock content %}
