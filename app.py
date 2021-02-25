@@ -1,5 +1,8 @@
 from webframework import Application
+from webframework.tools import render
 from webframework.views import TemplateView, View
+
+from models import SiteAdmin, Category, Course
 
 app = Application()
 
@@ -9,21 +12,48 @@ class Index(TemplateView):
     template = "index.html"
 
 
-class About(TemplateView):
-    route = "/about"
-    template = "about.html"
+class CoursesList(TemplateView):
+    route = "/courses"
+    template = "courses.html"
+
+    def get(self, request):
+        courses = SiteAdmin.get(Course)
+        return render(self.template, request, {"courses": courses})
 
 
-class Contacts(View):
-    route = ["/contacts", "/contact"]
-    template = "contacts.html"
+class CreateCourse(View):
+    route = "/create_course"
+    template = "create_course.html"
+
+    def get(self, request):
+        categories = [i.category for i in SiteAdmin.get(Category)]
+        return render(self.template, request, {"categories": categories})
 
     def post(self, request):
         if post := request.get("POST"):
-            email = post.email
-            subject = post.subject
-            message = post.message
-            print("Письмо от: {}\nТема: {}\nТекст: {}".format(email, subject, message))
+            name = post.name
+            type_ = post.type
+            category = SiteAdmin.get(Category, name=post.category)[0]
+            SiteAdmin.create_course(type_, name, category)
+        return self.get(request)
+
+
+class CategoriesList(TemplateView):
+    route = "/categories"
+    template = "categories.html"
+
+    def get(self, request):
+        categories = SiteAdmin.get(Category)
+        return render(self.template, request, {"categories": categories})
+
+
+class CreateCategory(View):
+    route = "/create_category"
+    template = "create_category.html"
+
+    def post(self, request):
+        if post := request.get("POST"):
+            SiteAdmin.create_category(post.name)
         return self.get(request)
 
 

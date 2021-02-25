@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    Создать курс
+{% endblock title %}
+
+{% block content %}
+    <h1>Создать курс</h1>
+    <form method="post">
+        <label class="form-label" for="name">Название:</label>
+        <input class="form-control" type="text" name="name"><br>
+        <label class="form-label" for="type">Тип:</label>
+        <select class="form-select" name="type">
+            <option selected>Выберите тип курса</option>
+            <option value="InteractiveCourse">Интерактивный курс</option>
+            <option value="OfflineCourse">Оффлайн курс</option>
+        </select><br>
+        <label class="form-label" for="category">Категория:</label>
+        <select class="form-select" name="category">
+            <option selected>Выберите категорию</option>
+            {% for category in categories %}
+                <option value="{{ category }}">{{ category }}</option>
+            {% endfor %}
+        </select><br><br>
+        <input class="form-control" type="submit" value="Создать">
+    </form>
+{% endblock content %}
